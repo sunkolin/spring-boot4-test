@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <springProperty scope="context" name="spring_application_name" source="spring.application.name" defaultValue="default" />
+    <property name="LOG_FILE" value="/opt/${spring_application_name}"/>
+    <property name="LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%-5level){faint} %clr(${PID:- }){faint} %clr([%15.15t]){faint} [%clr(%X{traceId}){red}] %clr(%-40.40logger{39}){cyan} %clr(%-5line){faint} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <logger name="org.springframework.jdbc.core.JdbcTemplate" level="DEBUG" />
+
+    <appender name="CONSOLE_LOG" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}/%d{yyyyMMdd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="JSON_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}/%d{yyyyMMdd}.json</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>UTC</timeZone>
+                </timestamp>
+                <pattern>
+                    <pattern>
+                        {
+                        "level": "%level",
+                        "traceId": "%X{traceId}",
+                        "spanId": "%X{spanId}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "filename": "%logger",
+                        "lineNo": "#asLong{%line}",
+                        "message": "%message",
+                        "has_message": "#asJson{%mdc{hasMessage}}",
+                        "json_message": "#asJson{%message}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE_LOG"/>
+        <appender-ref ref="FILE_LOG"/>
+<!--        <appender-ref ref="JSON_LOG"/>-->
+    </root>
+
+</configuration>

@@ -1,0 +1,50 @@
+package com.starfish.test.config;
+
+import lombok.Data;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
+
+/**
+ * ApplicationConfig
+ *
+ * @author sunkolin
+ * @version 1.0.0
+ * @since 2021-11-16
+ */
+@Data
+//@RefreshScope
+@Component("applicationConfig")
+public class ApplicationConfig implements ApplicationContextAware {
+
+    private ApplicationContext applicationContext;
+
+    @Value("${spring.application.name}")
+    private String name;
+
+    @Value("${server.port}")
+    private String port;
+
+    @Value("${spring.profiles.active}")
+    private String profile;
+
+    @Value("${spring.profiles.active}")
+    private String env;
+
+    /**
+     * 获取配置
+     *
+     * @return 结果
+     */
+    public ApplicationConfig getConfig() {
+        return applicationContext.getBean(ApplicationConfig.class);
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+}
