@@ -1,0 +1,17 @@
+*.class
+*.log
+*.logs
+*.ctxt
+*.war
+*.nar
+*.ear
+*.zip
+*.rar
+*.iml
+.idea
+.tmp
+*.tar.gz
+/target/*
+hs_err_pid*
+/target/
+target
