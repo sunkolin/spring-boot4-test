@@ -1,4 +1,4 @@
-package com.starfish.test.model;
+package com.starfish.test.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @TableName("t_user")
-public class UserModel implements Serializable {
+public class UserEntity implements Serializable {
 
     @TableId
     private Long id;

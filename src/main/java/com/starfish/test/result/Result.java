@@ -1,4 +1,4 @@
-package com.starfish.test.model;
+package com.starfish.test.result;
 
 import lombok.extern.slf4j.Slf4j;
 

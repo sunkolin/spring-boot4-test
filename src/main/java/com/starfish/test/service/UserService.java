@@ -2,9 +2,7 @@ package com.starfish.test.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.starfish.test.context.User;
-import com.starfish.test.model.UserModel;
-
-import java.util.List;
+import com.starfish.test.entity.UserEntity;
 
 /**
  * UserService
@@ -20,21 +18,21 @@ public interface UserService {
      *
      * @param userModel 用户
      */
-    Long register(UserModel userModel);
+    Long register(UserEntity userModel);
 
     /**
      * 登录
      *
      * @param userModel 用户
      */
-    User login(UserModel userModel);
+    User login(UserEntity userModel);
 
     /**
      * 登录
      *
      * @param userModel 用户
      */
-    void logout(UserModel userModel);
+    void logout(UserEntity userModel);
 
     /**
      * 查询用户
@@ -42,13 +40,13 @@ public interface UserService {
      * @param userId 用户ID
      * @return 结果
      */
-    UserModel getUser(Long userId);
+    UserEntity getUser(Long userId);
 
     /**
      * 查询用户列表
      *
      * @return 结果
      */
-    Page<UserModel> list();
+    Page<UserEntity> list();
 
 }

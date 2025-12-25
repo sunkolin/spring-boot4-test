@@ -1,7 +1,7 @@
 package com.starfish.test.exception;
 
 import com.google.common.base.Joiner;
-import com.starfish.test.model.Result;
+import com.starfish.test.result.Result;
 import com.starfish.test.util.WebUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;

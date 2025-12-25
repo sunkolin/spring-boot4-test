@@ -6,7 +6,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.starfish.test.enumeration.ResultEnum;
 import com.starfish.test.exception.CustomException;
-import com.starfish.test.model.Result;
+import com.starfish.test.result.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

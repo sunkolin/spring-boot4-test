@@ -3,11 +3,11 @@ package com.starfish.test.controller;
 import com.google.common.base.Strings;
 import com.starfish.test.context.User;
 import com.starfish.test.context.UserContext;
+import com.starfish.test.entity.UserEntity;
 import com.starfish.test.enumeration.ResultEnum;
 import com.starfish.test.exception.CustomException;
 import com.starfish.test.interceptor.NoLogin;
-import com.starfish.test.model.Result;
-import com.starfish.test.model.UserModel;
+import com.starfish.test.result.Result;
 import com.starfish.test.service.UserService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class UserController {
 
     @NoLogin
     @PostMapping("/api/user/register")
-    public Result<UserModel> register(@RequestBody UserModel userModel) {
+    public Result<UserEntity> register(@RequestBody UserEntity userModel) {
         // 验证参数，手机号，密码必传
         String mobile = userModel.getMobile();
         String password = userModel.getPassword();
@@ -50,7 +50,7 @@ public class UserController {
 
     @NoLogin
     @PostMapping("/api/user/login")
-    public Result<User> login(@RequestBody UserModel userModel) {
+    public Result<User> login(@RequestBody UserEntity userModel) {
         // 验证参数，手机号，密码必传
         String mobile = userModel.getMobile();
         String password = userModel.getPassword();
@@ -71,7 +71,7 @@ public class UserController {
     @PostMapping("/api/user/logout")
     public Result<String> logout() {
         // 退出
-        UserModel userModel = new UserModel();
+        UserEntity userModel = new UserEntity();
         Long userId = UserContext.getUserId();
         userModel.setId(userId);
         log.info("UserController logout start.userId={}", userId);
@@ -81,10 +81,10 @@ public class UserController {
     }
 
     @GetMapping("/api/user/getUser")
-    public Result<UserModel> getUser() {
+    public Result<UserEntity> getUser() {
         Long userId = UserContext.getUserId();
         log.info("UserController getUser.userId={}", userId);
-        UserModel userModel = userService.getUser(userId);
+        UserEntity userModel = userService.getUser(userId);
         return Result.success(userModel);
     }
 

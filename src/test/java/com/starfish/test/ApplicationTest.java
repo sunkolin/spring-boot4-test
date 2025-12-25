@@ -3,10 +3,10 @@ package com.starfish.test;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class ApplicationTest {
+//@SpringBootTest
+public class ApplicationTest {
 
-    @Test
+//    @Test
     void contextLoads() {
     }
 

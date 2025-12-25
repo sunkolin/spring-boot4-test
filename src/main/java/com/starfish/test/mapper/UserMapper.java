@@ -1,8 +1,8 @@
 package com.starfish.test.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.starfish.test.model.UserModel;
+import com.starfish.test.entity.UserEntity;
 
-public interface UserMapper extends BaseMapper<UserModel> {
+public interface UserMapper extends BaseMapper<UserEntity> {
 
 }
