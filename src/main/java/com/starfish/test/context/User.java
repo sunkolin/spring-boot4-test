@@ -2,6 +2,7 @@ package com.starfish.test.context;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,17 +15,8 @@ import java.util.Date;
  * @since 2015-05-08
  */
 @Data
-public class User implements Serializable {
-
-    /**
-     * 主键
-     */
-    private Long userId;
-
-    /**
-     * 昵称
-     */
-    private String nickName;
+@EqualsAndHashCode(callSuper = true)
+public class User extends com.starfish.core.context.User implements Serializable {
 
     /**
      * 最后登录成功时间

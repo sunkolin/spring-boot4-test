@@ -1,10 +1,11 @@
 package com.starfish.test.interceptor;
 
+import com.starfish.core.annotation.RequireToken;
+import com.starfish.core.context.UserContext;
+import com.starfish.core.exception.CustomException;
+import com.starfish.experiment.jwt.JsonWebTokens;
 import com.starfish.test.context.User;
-import com.starfish.test.context.UserContext;
 import com.starfish.test.enumeration.ResultEnum;
-import com.starfish.test.exception.CustomException;
-import com.starfish.test.util.JsonWebTokenPlus;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
@@ -41,9 +42,8 @@ public class LoginInterceptor implements HandlerInterceptor {
         //  只要没有Login注解就不需要验证token
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
-        NoLogin noLogin = method.getAnnotation(NoLogin.class);
-        Login login = method.getAnnotation(Login.class);
-        if (login == null || noLogin != null) {
+        RequireToken requireLogin = method.getAnnotation(RequireToken.class);
+        if (requireLogin == null || !requireLogin.value()) {
             return true;
         }
 
@@ -51,7 +51,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         String token = request.getParameter("token");
         String userIdString = request.getParameter("userId");
         Long userId = Long.valueOf(userIdString);
-        User user = JsonWebTokenPlus.verify(userId, token, User.class);
+        User user = JsonWebTokens.verify(userId, token, User.class);
         if (user == null) {
             throw new CustomException(ResultEnum.INVALID_TOKEN);
         }

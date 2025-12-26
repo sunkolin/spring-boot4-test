@@ -1,17 +1,26 @@
 package com.starfish.test.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.base.Strings;
-import com.starfish.test.context.User;
-import com.starfish.test.context.UserContext;
+import com.starfish.core.context.User;
+import com.starfish.core.context.UserContext;
+import com.starfish.core.exception.CustomException;
+import com.starfish.core.model.Result;
 import com.starfish.test.entity.UserEntity;
 import com.starfish.test.enumeration.ResultEnum;
-import com.starfish.test.exception.CustomException;
-import com.starfish.test.interceptor.NoLogin;
-import com.starfish.test.result.Result;
+import com.starfish.test.param.DeleteUserParam;
+import com.starfish.test.param.GetUserParam;
+import com.starfish.test.param.ListUserParam;
+import com.starfish.test.param.UpdateUserParam;
 import com.starfish.test.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.BeanUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * UserController
@@ -21,49 +30,48 @@ import org.springframework.web.bind.annotation.*;
  * @since 2022-07-14
  */
 @Slf4j
+@Tag(name = "UserController", description = "用户接口")
 @RestController
 public class UserController {
 
     @Resource
     private UserService userService;
 
-    @NoLogin
     @PostMapping("/api/user/register")
-    public Result<UserEntity> register(@RequestBody UserEntity userModel) {
+    public Result<UserEntity> register(@RequestBody UserEntity userEntity) {
         // 验证参数，手机号，密码必传
-        String mobile = userModel.getMobile();
-        String password = userModel.getPassword();
+        String mobile = userEntity.getMobile();
+        String password = userEntity.getPassword();
         if (Strings.isNullOrEmpty(mobile)) {
             throw new CustomException(ResultEnum.PARAM_ERROR);
         }
-        if (Strings.isNullOrEmpty(userModel.getPassword())) {
+        if (Strings.isNullOrEmpty(userEntity.getPassword())) {
             throw new CustomException(ResultEnum.PARAM_ERROR);
         }
 
         // 登录
         log.info("UserController register start.mobile={},password={}", mobile, password);
-        Long userId = userService.register(userModel);
-        userModel.setId(userId);
+        Long userId = userService.register(userEntity);
+        userEntity.setId(userId);
         log.info("UserController register success.mobile={},password={}", mobile, password);
-        return Result.success(userModel);
+        return Result.success(userEntity);
     }
 
-    @NoLogin
     @PostMapping("/api/user/login")
-    public Result<User> login(@RequestBody UserEntity userModel) {
+    public Result<User> login(@RequestBody UserEntity userEntity) {
         // 验证参数，手机号，密码必传
-        String mobile = userModel.getMobile();
-        String password = userModel.getPassword();
+        String mobile = userEntity.getMobile();
+        String password = userEntity.getPassword();
         if (Strings.isNullOrEmpty(mobile)) {
             throw new CustomException(ResultEnum.PARAM_ERROR);
         }
-        if (Strings.isNullOrEmpty(userModel.getPassword())) {
+        if (Strings.isNullOrEmpty(userEntity.getPassword())) {
             throw new CustomException(ResultEnum.PARAM_ERROR);
         }
 
         // 登录
         log.info("UserController login start.mobile={},password={}", mobile, password);
-        User user = userService.login(userModel);
+        User user = userService.login(userEntity);
         log.info("UserController login success.mobile={},password={}", mobile, password);
         return Result.success(user);
     }
@@ -71,21 +79,45 @@ public class UserController {
     @PostMapping("/api/user/logout")
     public Result<String> logout() {
         // 退出
-        UserEntity userModel = new UserEntity();
+        UserEntity userEntity = new UserEntity();
         Long userId = UserContext.getUserId();
-        userModel.setId(userId);
+        userEntity.setId(userId);
         log.info("UserController logout start.userId={}", userId);
-        userService.logout(userModel);
+        userService.logout(userEntity);
         log.info("UserController logout success.userId={}", userId);
         return Result.success();
     }
 
-    @GetMapping("/api/user/getUser")
-    public Result<UserEntity> getUser() {
-        Long userId = UserContext.getUserId();
+    @PostMapping("/api/user/delete")
+    public Result<Page<UserEntity>> delete(@RequestBody DeleteUserParam param) {
+        Long userId = param.getUserId();
+        userService.delete(userId);
+        return Result.success();
+    }
+
+    @PostMapping("/api/user/update")
+    public Result<Page<UserEntity>> update(@RequestBody UpdateUserParam param) {
+        UserEntity userEntity = new UserEntity();
+        BeanUtils.copyProperties(param, userEntity);
+        userService.update(userEntity);
+        return Result.success();
+    }
+
+    @Operation(summary = "查询用户接口", description = "查询用户接口")
+    @PostMapping("/api/user/get")
+    public Result<UserEntity> get(@RequestBody GetUserParam param) {
+        Long userId = param.getUserId();
         log.info("UserController getUser.userId={}", userId);
-        UserEntity userModel = userService.getUser(userId);
-        return Result.success(userModel);
+        UserEntity userEntity = userService.getUser(userId);
+        return Result.success(userEntity);
+    }
+
+    @PostMapping("/api/user/list")
+    public Result<Page<UserEntity>> list(@RequestBody ListUserParam param) {
+        Long pageNumber = param.getPageNumber();
+        Long pageSize = param.getPageSize();
+        Page<UserEntity> list = userService.list(pageNumber, pageSize);
+        return Result.success(list);
     }
 
 }
