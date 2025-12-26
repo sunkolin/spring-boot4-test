@@ -1,6 +1,7 @@
 package com.starfish.test.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.starfish.core.annotation.RequireLogin;
 import com.starfish.core.model.Result;
 import com.starfish.test.entity.UserEntity;
 import com.starfish.test.service.UserService;
@@ -25,12 +26,14 @@ public class TestController {
     @Resource
     private UserService userService;
 
+    @RequireLogin(false)
     @GetMapping("/api/user/list1")
     public Result<Page<UserEntity>> getUser() {
         Page<UserEntity> list = userService.list(1L,20L);
         return Result.success(list);
     }
 
+    @RequireLogin(false)
     @RequestMapping(value = {"/api/test/testXForwardedFor"}, method = {RequestMethod.GET, RequestMethod.POST})
     public Result<String> alive(HttpServletRequest request) {
         Enumeration<String> names = request.getHeaderNames();
@@ -38,6 +41,7 @@ public class TestController {
         return Result.success("alive");
     }
 
+    @RequireLogin(false)
     @RequestMapping(value = {"/api/test/testXForwardedFor2"}, method = {RequestMethod.GET, RequestMethod.POST})
     public Result<String> alive2(@RequestBody UserEntity user, HttpServletRequest request) {
         Enumeration<String> names = request.getHeaderNames();

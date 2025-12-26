@@ -2,6 +2,7 @@ package com.starfish.test.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.base.Strings;
+import com.starfish.core.annotation.RequireLogin;
 import com.starfish.core.context.User;
 import com.starfish.core.context.UserContext;
 import com.starfish.core.exception.CustomException;
@@ -37,6 +38,7 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @RequireLogin(false)
     @PostMapping("/api/user/register")
     public Result<UserEntity> register(@RequestBody UserEntity userEntity) {
         // 验证参数，手机号，密码必传
@@ -57,6 +59,7 @@ public class UserController {
         return Result.success(userEntity);
     }
 
+    @RequireLogin(false)
     @PostMapping("/api/user/login")
     public Result<User> login(@RequestBody UserEntity userEntity) {
         // 验证参数，手机号，密码必传
