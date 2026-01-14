@@ -12,8 +12,11 @@ import com.starfish.test.mapper.UserMapper;
 import com.starfish.test.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.Date;
 
 /**
@@ -29,6 +32,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+//    @Autowired
+//    private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private RedisTemplate<String, UserEntity> redisTemplate;
 
     @Override
     public Long register(UserEntity userEntity) {
@@ -87,7 +96,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity getUser(Long userId) {
-        return userMapper.selectById(userId);
+        String key = "starfish:spring-boot4-test:" + userId;
+        if (redisTemplate.hasKey(key)) {
+            return redisTemplate.opsForValue().get(key);
+        } else {
+            UserEntity userEntity = userMapper.selectById(userId);
+            // 缓存一个小时
+            Duration duration = Duration.ofSeconds(60 * 60);
+            redisTemplate.opsForValue().set(key, userEntity, duration);
+            return userEntity;
+        }
     }
 
     @Override
