@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Autowired
-    private RedisTemplate<String, UserEntity> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public Long register(UserEntity userEntity) {
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
         }
         log.info("UserServiceImpl login success.mobile={},password={}", userEntity.getMobile(), userEntity.getPassword());
 
-        // 生成token
+        // 生成 token
         User user = new User();
         Long userId = result.getId();
         user.setUserId(userId);
@@ -94,7 +94,8 @@ public class UserServiceImpl implements UserService {
     public UserEntity getUser(Long userId) {
         String key = "starfish:spring-boot4-test:" + userId;
         if (redisTemplate.hasKey(key)) {
-            return redisTemplate.opsForValue().get(key);
+            Object result = redisTemplate.opsForValue().get(key);
+            return result != null ? (UserEntity) result : null;
         } else {
             UserEntity userEntity = userMapper.selectById(userId);
             // 缓存一个小时
