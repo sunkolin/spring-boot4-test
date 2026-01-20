@@ -1,11 +1,8 @@
 package com.starfish.test.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.starfish.core.annotation.RequireLogin;
 import com.starfish.core.model.Result;
 import com.starfish.test.entity.UserEntity;
-import com.starfish.test.service.UserService;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -22,16 +19,6 @@ import java.util.Enumeration;
 @Slf4j
 @RestController
 public class TestController {
-
-    @Resource
-    private UserService userService;
-
-    @RequireLogin(false)
-    @GetMapping("/api/user/list1")
-    public Result<Page<UserEntity>> getUser() {
-        Page<UserEntity> list = userService.list(1L,20L);
-        return Result.success(list);
-    }
 
     @RequireLogin(false)
     @RequestMapping(value = {"/api/test/testXForwardedFor"}, method = {RequestMethod.GET, RequestMethod.POST})
