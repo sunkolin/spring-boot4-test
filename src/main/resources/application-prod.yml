@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: spring-boot4-test
+  profiles:
+    active: prod
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/starfish?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
+    username: root
+    password: 123456789
+
+# minio
+starfish:
+  minio:
+    enabled: false
+    url: http://127.0.0.1:9000
+    access-key: yLYYn14VnYcdLyOnOY12
+    secret-key: OZGbQ31lTGptvH1Io6Wc5wfKfwvMxuQvuOZA3TtZ
+    bucket-name: my-bucket-prod
+    expire: 3600
