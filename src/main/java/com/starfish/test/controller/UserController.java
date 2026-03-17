@@ -11,7 +11,6 @@ import com.starfish.test.entity.UserEntity;
 import com.starfish.test.enumeration.ResultEnum;
 import com.starfish.test.param.DeleteUserParam;
 import com.starfish.test.param.GetUserParam;
-import com.starfish.test.param.ListUserParam;
 import com.starfish.test.param.UpdateUserParam;
 import com.starfish.test.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -91,6 +90,11 @@ public class UserController {
         return Result.success();
     }
 
+    /**
+     * 注销接口
+     * @param param 参数
+     * @return 结果
+     */
     @PostMapping("/api/user/delete")
     public Result<Page<UserEntity>> delete(@RequestBody DeleteUserParam param) {
         Long userId = param.getUserId();
@@ -98,6 +102,11 @@ public class UserController {
         return Result.success();
     }
 
+    /**
+     * 修改个人信息
+     * @param param 参数
+     * @return 结果
+     */
     @PostMapping("/api/user/update")
     public Result<Page<UserEntity>> update(@RequestBody UpdateUserParam param) {
         UserEntity userEntity = new UserEntity();
@@ -106,6 +115,11 @@ public class UserController {
         return Result.success();
     }
 
+    /**
+     * 查询用户个人信息
+     * @param param 参数
+     * @return 结果
+     */
     @Operation(summary = "查询用户接口", description = "查询用户接口")
     @PostMapping("/api/user/get")
     public Result<UserEntity> get(@RequestBody GetUserParam param) {
@@ -113,14 +127,6 @@ public class UserController {
         log.info("UserController getUser.userId={}", userId);
         UserEntity userEntity = userService.getUser(userId);
         return Result.success(userEntity);
-    }
-
-    @PostMapping("/api/user/list")
-    public Result<Page<UserEntity>> list(@RequestBody ListUserParam param) {
-        Long pageNumber = param.getPageNumber();
-        Long pageSize = param.getPageSize();
-        Page<UserEntity> list = userService.list(pageNumber, pageSize);
-        return Result.success(list);
     }
 
 }

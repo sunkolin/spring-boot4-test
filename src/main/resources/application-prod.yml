@@ -15,9 +15,9 @@ spring:
 # minio
 starfish:
   minio:
-    enabled: false
-    url: http://127.0.0.1:9000
+    enabled: true
+    endpoint: https://sunkolin.xyz:9000
     access-key: yLYYn14VnYcdLyOnOY12
     secret-key: OZGbQ31lTGptvH1Io6Wc5wfKfwvMxuQvuOZA3TtZ
-    bucket-name: my-bucket-prod
+    bucket-name: my-bucket-dev
     expire: 3600

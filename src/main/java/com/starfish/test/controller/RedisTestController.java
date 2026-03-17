@@ -13,22 +13,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * AdminController
+ * RedisTestController
  *
  * @author sunkolin
  * @version 1.0.0
  * @since 2022-07-14
  */
 @Slf4j
-@Tag(name = "AdminController", description = "管理接口")
+@Tag(name = "RedisTestController", description = "RedisTestController")
 @RestController
-public class AdminController {
+public class RedisTestController {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
     @RequireLogin(false)
-    @PostMapping("/api/admin/redis")
+    @PostMapping("/api/redis/delete")
     public Result<UserEntity> redisDelete(@RequestBody RedisDeleteRequestBody requestBody) {
         redisTemplate.delete(requestBody.getKey());
         return Result.success();

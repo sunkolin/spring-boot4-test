@@ -19,7 +19,7 @@ spring:
 starfish:
   minio:
     enabled: true
-    endpoint: http://sunkolin.xyz:9000
+    endpoint: https://sunkolin.xyz:9000
     access-key: yLYYn14VnYcdLyOnOY12
     secret-key: OZGbQ31lTGptvH1Io6Wc5wfKfwvMxuQvuOZA3TtZ
     bucket-name: my-bucket-dev
