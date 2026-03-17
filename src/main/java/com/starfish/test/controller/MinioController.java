@@ -3,17 +3,11 @@ package com.starfish.test.controller;
 import com.starfish.common.storage.minio.MinioService;
 import com.starfish.core.annotation.RequireLogin;
 import com.starfish.core.model.Result;
-import com.starfish.test.entity.UserEntity;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Enumeration;
 
 /**
  * MinioController

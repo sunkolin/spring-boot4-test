@@ -1,24 +1,14 @@
 package com.starfish.test.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.base.Strings;
 import com.starfish.core.annotation.RequireLogin;
-import com.starfish.core.context.User;
-import com.starfish.core.context.UserContext;
-import com.starfish.core.exception.CustomException;
 import com.starfish.core.model.Result;
 import com.starfish.test.entity.UserEntity;
-import com.starfish.test.enumeration.ResultEnum;
-import com.starfish.test.param.DeleteUserParam;
-import com.starfish.test.param.GetUserParam;
 import com.starfish.test.param.ListUserParam;
-import com.starfish.test.param.UpdateUserParam;
 import com.starfish.test.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
