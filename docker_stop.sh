@@ -1,4 +1,4 @@
-source ./init.sh
+source .env
 
 echo "stop start"
 

@@ -1,5 +1,5 @@
 # 定义基本参数
-source ./init.sh
+source .env
 
 # 打包
 mvn clean install -Dmaven.test.skip=true
