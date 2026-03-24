@@ -8,26 +8,29 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 # 设置ll别名（全局生效）
 RUN echo "alias ll='ls -al'" >> /etc/profile
+RUN echo "alias wget='busybox wget'" >> /etc/profile
+RUN echo "alias telnet='busybox telnet'" >> /etc/profile
 ENV ENV="/etc/profile"
 
 # 替换阿里云源
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
-# 安装wget，gcc，net-tools，telnet，xinetd，bash，openjdk17，curl
+# 安装wget，gcc，net-tools，telnet，xinetd，bash，java，curl
 RUN apk add --no-cache \
-    wget \
-    gcc \
-    net-tools \
-    telnet \
-    xinetd \
+#    wget \
+#    gcc \
+#    net-tools \
+#    telnet \
+#    xinetd \
     bash \
     curl \
-    openjdk17
+#    openjdk17 \
+    openjdk17-jre
 
 # 清理apk缓存，减小镜像体积
 RUN rm -rf /var/cache/apk/*
 
-# 配置JDK17
+# java
 RUN ln -sf /usr/lib/jvm/java-17-openjdk /usr/lib/jvm/java-17
 ENV JAVA_HOME=/usr/lib/jvm/java-17
 ENV PATH=$PATH:$JAVA_HOME/bin
