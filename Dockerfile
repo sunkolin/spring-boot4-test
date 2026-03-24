@@ -1,34 +1,43 @@
-FROM centos:7.9.2009
+FROM alpine:latest
 
-MAINTAINER 2025-05-15 sunkolin sunkolin@qq.com
+LABEL maintainer="sunkolin <sunkolin@qq.com>"
 
-# config
-RUN cp -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone &&\
-    alias ll="ls -al"
+# 设置时区
+RUN echo "Asia/Shanghai" > /etc/timezone
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
-# software
-RUN yum install -y wget gcc net-tools telnet.x86_64 xinetd.x86_64 &&\
-    yum clean all
+# 设置ll别名（全局生效）
+RUN echo "alias ll='ls -al'" >> /etc/profile
+ENV ENV="/etc/profile"
 
-# java
-RUN mkdir -p /opt/ &&\
-    cd /opt/ &&\
-    curl -L -O  -J -H "Cookie: key=value" -k "https://mirrors.huaweicloud.com/openjdk/17.0.2/openjdk-17.0.2_linux-x64_bin.tar.gz" &&\
-    tar -zxvf openjdk-17.0.2_linux-x64_bin.tar.gz > /dev/null &&\
-    rm -rf /opt/openjdk-17.0.2_linux-x64_bin.tar.gz &&\
-    ln -s /opt/openjdk-17.0.2_linux-x64_bin /opt/java
-ENV JAVA_HOME=/opt/java
-ENV PATH=${PATH}:/opt/java/bin
-RUN java -version
+# 替换阿里云源
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
-# arthas
-RUN mkdir -p /opt/arthas/ &&\
-    cd /opt/arthas/ &&\
-    wget https://arthas.aliyun.com/arthas-boot.jar
+# 安装wget，gcc，net-tools，telnet，xinetd，bash，openjdk17，curl
+RUN apk add --no-cache \
+    wget \
+    gcc \
+    net-tools \
+    telnet \
+    xinetd \
+    bash \
+    curl \
+    openjdk17
 
-# application
-WORKDIR /opt/${APP_NAME}
-ADD ./target/${APP_NAME}-1.0.0-SNAPSHOT.jar /opt/${APP_NAME}
+# 清理apk缓存，减小镜像体积
+RUN rm -rf /var/cache/apk/*
 
-# start
-CMD java -jar -Xmx1G -Xmx4G -server -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/logs/${APP_NAME}/ -Xloggc:~/opt/log/${APP_NAME}-gc.log /opt/${APP_NAME}/${APP_NAME}-1.0.0-SNAPSHOT.jar
+# 配置JDK17
+RUN ln -sf /usr/lib/jvm/java-17-openjdk /usr/lib/jvm/java-17
+ENV JAVA_HOME=/usr/lib/jvm/java-17
+ENV PATH=$PATH:$JAVA_HOME/bin
+
+# 启动项目
+ENV APP_NAME=spring-boot4-test
+ENV APP_PORT=8080
+ENV APP_ENV=dev
+ENV APP_VERSION=1.0.0
+RUN mkdir -p /app
+COPY ./target/*.jar /app/
+CMD ["sh", "-c", "java -Xms1G -Xmx2G -jar /app/*.jar --spring.profiles.active=${APP_ENV} --server.port=${APP_PORT}"]
+
