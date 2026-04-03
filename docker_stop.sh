@@ -1,7 +1,9 @@
 source .env
 
-echo "stop start"
+echo "docker stop running."
 
-sudo docker ps -a -q --filter "application_name=${APP_NAME}"|grep -q . && docker stop ${APP_NAME} && docker rm -fv ${APP_NAME}
+docker stop ${APP_NAME}
 
-echo "stop complete"
+docker rm ${APP_NAME}
+
+echo "docker stop complete."
