@@ -4,8 +4,6 @@ server:
 spring:
   application:
     name: spring-boot4-test
-  profiles:
-    active: prod
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/starfish?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
