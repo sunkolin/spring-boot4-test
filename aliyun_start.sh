@@ -1,8 +1,6 @@
 #!/bin/bash
 
-export APP_ENV=dev
-export APP_PORT=6005
-APP_NAME="spring-boot4-test"
+source .env
 PID_FILE="${APP_NAME}.pid"
 LOG_FILE="${APP_NAME}.log"
 JAR_FILE="/app/*.jar"
