@@ -3,7 +3,7 @@
 # 定义基本参数
 APP_NAME="spring-boot4-test"
 APP_VERSION="1.0.0-SNAPSHOT"
-JAR_FILE="target/${APP_NAME}-${APP_VERSION}.jar"
+JAR_FILE="target/*.jar"
 PID_FILE="${APP_NAME}.pid"
 LOG_FILE="${APP_NAME}.log"
 
