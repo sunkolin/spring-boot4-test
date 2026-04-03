@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # 基本参数
 source .env
 

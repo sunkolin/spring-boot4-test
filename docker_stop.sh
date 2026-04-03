@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source .env
 
 echo "docker stop running."
