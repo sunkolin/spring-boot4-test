@@ -4,8 +4,8 @@ source .env
 
 echo "docker stop running."
 
-docker stop ${APP_NAME}
+sudo docker stop ${APP_NAME}
 
-docker rm ${APP_NAME}
+sudo docker rm ${APP_NAME}
 
 echo "docker stop complete."
