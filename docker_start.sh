@@ -8,8 +8,7 @@ source .env
 # 如果是prod环境，先从远程拉取包
 if [ APP_ENV = "dev" ]; then
     source docker_build.sh
-fi
-else if [ APP_ENV = "prod" ]; then
+elif [ APP_ENV = "prod" ]; then
     echo "从远程拉取包"
     docker pull sunkolin/${APP_NAME}:${APP_VERSION}
 fi
