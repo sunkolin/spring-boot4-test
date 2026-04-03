@@ -1,6 +1,10 @@
 #!/bin/bash
 
 source .env
+
+# 单独设置一下启动环境
+export APP_ENV=prod
+
 PID_FILE="${APP_NAME}.pid"
 LOG_FILE="${APP_NAME}.log"
 JAR_FILE="/app/*.jar"
