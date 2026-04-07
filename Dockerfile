@@ -43,4 +43,4 @@ ENV PATH=$PATH:$JAVA_HOME/bin
 
 RUN mkdir -p /app
 COPY ./target/*.jar /app/
-CMD ["sh", "-c", "java -Xms1G -Xmx2G -jar /app/*.jar --spring.profiles.active=${APP_ENV} --server.port=${APP_PORT}"]
+CMD ["sh", "-c", "java -Xms1G -Xmx2G -jar /app/*.jar --spring.profiles.active=${APP_ENV:dev} --server.port=${APP_PORT:6005}"]
