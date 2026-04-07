@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM registry.cn-hangzhou.aliyuncs.com/sunkolin/alpine:latest
 
 LABEL maintainer="sunkolin <sunkolin@qq.com>"
 
