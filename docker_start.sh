@@ -16,4 +16,4 @@ fi
 # 停止并删除容器，再启动
 sudo docker stop ${APP_NAME}
 sudo docker rm -fv ${APP_NAME}
-sudo docker run -d --name ${APP_NAME} -p ${APP_PORT}:${APP_PORT} sunkolin/${APP_NAME}:${APP_VERSION}
+sudo docker run -d --name ${APP_NAME} -p ${APP_PORT}:${APP_PORT} -e APP_ENV=${APP_ENV} -e APP_PORT=${APP_PORT} sunkolin/${APP_NAME}:${APP_VERSION}
