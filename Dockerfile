@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM registry.aliyuncs.com/library/alpine:latest
 
 LABEL maintainer="sunkolin <sunkolin@qq.com>"
 
