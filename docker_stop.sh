@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source .env
+export APP_NAME=spring-boot4-test
 
 echo "docker stop running."
 
