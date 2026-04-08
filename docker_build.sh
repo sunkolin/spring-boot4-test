@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# 基本参数
-source .env
+# 变量
+export APP_NAME=spring-boot4-test
+export APP_VERSION=1.0.0
 
 # 打包
 mvn clean install -Dmaven.test.skip=true

@@ -1,12 +1,17 @@
 #!/bin/bash
 
-# 定义基本参数
-source .env
+# 变量
+export APP_NAME=spring-boot4-test
+export APP_VERSION=1.0.0
 
 # 打包
-source docker_build.sh
+mvn clean install -Dmaven.test.skip=true
+
+# 打镜像
+sudo docker build -t sunkolin/${APP_NAME}:${APP_VERSION} -f Dockerfile .
+sudo docker tag sunkolin/${APP_NAME}:${APP_VERSION} sunkolin/${APP_NAME}:latest
 
 # 推送
-sudo docker login -u sunkolin -p 'XiaoZhi888+'
-sudo docker push sunkolin/${APP_NAME}:${APP_VERSION}
-sudo docker push sunkolin/${APP_NAME}:latest
+sudo docker login --username sunkolin --password 'xxx'
+sudo docker push registry.cn-hangzhou.aliyuncs.com/sunkolin/${APP_NAME}:${APP_VERSION}
+sudo docker push registry.cn-hangzhou.aliyuncs.com/sunkolin/${APP_NAME}:latest
