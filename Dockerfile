@@ -14,13 +14,13 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 #ENV APP_PORT=8080
 #ENV APP_ENV=dev
 #ENV APP_VERSION=1.0.0
-COPY ./.env /app/.env
+#COPY ./.env /app/.env
 RUN echo "alias ll='ls -al'" >> /etc/profile
 RUN echo "alias wget='busybox wget'" >> /etc/profile
 RUN echo "alias telnet='busybox telnet'" >> /etc/profile
-RUN if [ -f /app/.env ]; then \
-      sed 's/^/export /' /app/.env >> /etc/profile; \
-    fi
+#RUN if [ -f /app/.env ]; then \
+#      sed 's/^/export /' /app/.env >> /etc/profile; \
+#    fi
 ENV ENV="/etc/profile"
 
 # 安装wget，gcc，net-tools，telnet，xinetd，bash，java，curl，清理apk缓存，减小镜像体积
@@ -43,4 +43,4 @@ ENV PATH=$PATH:$JAVA_HOME/bin
 
 RUN mkdir -p /app
 COPY ./target/*.jar /app/
-CMD ["sh", "-c", "java -Xms1G -Xmx2G -jar /app/*.jar --spring.profiles.active=${APP_ENV:dev} --server.port=${APP_PORT:6005}"]
+CMD ["sh", "-c", "java -Xms1G -Xmx2G -jar /app/*.jar --spring.profiles.active=${APP_ENV:dev} --server.port=${APP_PORT:8080}"]

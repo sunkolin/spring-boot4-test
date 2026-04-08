@@ -2,16 +2,15 @@ version: '3.8'
 
 services:
   spring-boot4-test:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      # 将 .env 中的变量传递给 Dockerfile 的 ARG
-      args:
-        - APP_VERSION=${APP_VERSION}  # 引用 .env 中的变量
-        - APP_PORT=${APP_PORT}
-        - APP_HOME=${APP_HOME}
-    # 容器运行时也可直接用 .env 变量（可选）
-    environment:
-      - APP_PORT=${APP_PORT}
+    image: registry.cn-hangzhou.aliyuncs.com/sunkolin/spring-boot4-test:latest
+    container_name: spring-boot4-test
+    restart: unless-stopped
     ports:
-      - "${APP_PORT}:${APP_PORT}"  # 直接引用 .env 变量
+      - "6005:8080"
+    volumes:
+      - /tmp/app:/app
+    environment:
+      - APP_NAME=spring-boot4-test
+      - APP_VERSION=1.0.0
+      - APP_PORT=6005
+      - APP_ENV=prod
