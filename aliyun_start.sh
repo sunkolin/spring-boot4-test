@@ -1,9 +1,9 @@
 #!/bin/bash
-
-source .env
-
-# 单独设置一下启动环境
-export APP_ENV=prod
+# 变量
+export APP_NAME=spring-boot4-test
+export APP_PORT=6005
+export APP_VERSION=1.0.0
+export APP_ENV=dev
 
 PID_FILE="${APP_NAME}.pid"
 LOG_FILE="${APP_NAME}.log"
