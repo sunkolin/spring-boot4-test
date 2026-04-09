@@ -9,9 +9,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list.d/debian.sources
 
 # 设置时区
-RUN apt-get update && apt-get install -y --no-install-recommends tzdata
 ENV TZ=Asia/Shanghai
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt-get update && apt-get install -y --no-install-recommends tzdata
+RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone
 
 # 设置别名
 RUN echo "alias ll='ls -al'" >> /etc/profile
