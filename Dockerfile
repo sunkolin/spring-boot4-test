@@ -1,42 +1,36 @@
-FROM registry.cn-hangzhou.aliyuncs.com/sunkolin/alpine:latest
+FROM debian:slim
 
 LABEL maintainer="sunkolin <sunkolin@qq.com>"
 
 # 设置时区
-RUN echo "Asia/Shanghai" > /etc/timezone
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN apt-get update && apt-get install -y --no-install-recommends tzdata
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # 替换阿里云源
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list.d/debian.sources
 
-# 设置别名，环境变量在部署时动态设置，镜像中不应该设置
-#ENV APP_NAME=spring-boot4-test
-#ENV APP_PORT=8080
-#ENV APP_ENV=dev
-#ENV APP_VERSION=1.0.0
+# 设置别名
 RUN echo "alias ll='ls -al'" >> /etc/profile
-RUN echo "alias wget='busybox wget'" >> /etc/profile
-RUN echo "alias telnet='busybox telnet'" >> /etc/profile
 ENV ENV="/etc/profile"
 
-# 安装wget，gcc，net-tools，telnet，xinetd，bash，java，curl，清理apk缓存，减小镜像体积
-RUN apk add --no-cache \
-#    wget \
-#    gcc \
-#    net-tools \
-#    telnet \
-#    xinetd \
-    bash \
+# curl,wget,telnet,net-tools,java
+RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
-#    openjdk17 \
-    openjdk17-jre
-RUN rm -rf /var/cache/apk/*
+    wget \
+    telnet \
+    net-tools \
+    openjdk-17-jre \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # java
-RUN ln -sf /usr/lib/jvm/java-17-openjdk /usr/lib/jvm/java-17
-ENV JAVA_HOME=/usr/lib/jvm/java-17
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 ENV PATH=$PATH:$JAVA_HOME/bin
 
+# 部署应用
 RUN mkdir -p /app
 COPY ./target/*.jar /app/
+
+# 启动
 CMD ["sh", "-c", "java -Xms1G -Xmx2G -jar /app/*.jar --spring.profiles.active=${APP_ENV:-dev} --server.port=${APP_PORT:-8080}"]
