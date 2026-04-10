@@ -1,4 +1,4 @@
-FROM debian:slim
+FROM debian:12-slim
 
 LABEL maintainer="sunkolin <sunkolin@qq.com>"
 
