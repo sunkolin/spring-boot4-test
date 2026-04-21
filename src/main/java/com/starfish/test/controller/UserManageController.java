@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @Tag(name = "UserAdminController", description = "用户管理接口")
 @RestController
-public class UserAdminController {
+public class UserManageController {
 
     @Resource
     private UserService userService;
