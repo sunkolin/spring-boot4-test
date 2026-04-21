@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,12 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class RedisTestController {
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
 
     @RequireLogin(false)
     @PostMapping("/api/redis/delete")
     public Result<UserEntity> redisDelete(@RequestBody RedisDeleteRequestBody requestBody) {
-        redisTemplate.delete(requestBody.getKey());
+        stringRedisTemplate.delete(requestBody.getKey());
         return Result.success();
     }
 
