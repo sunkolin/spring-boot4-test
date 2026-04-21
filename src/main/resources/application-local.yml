@@ -18,7 +18,7 @@ spring:
 # minio
 starfish:
   minio:
-    enabled: true
+    enabled: false
     endpoint: https://sunkolin.xyz:9000
     access-key: yLYYn14VnYcdLyOnOY12
     secret-key: OZGbQ31lTGptvH1Io6Wc5wfKfwvMxuQvuOZA3TtZ
