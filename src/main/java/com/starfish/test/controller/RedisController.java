@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @Tag(name = "RedisTestController", description = "RedisTestController")
 @RestController
-public class RedisTestController {
+public class RedisController {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
