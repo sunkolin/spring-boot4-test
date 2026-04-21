@@ -36,6 +36,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RedisTemplate<Object, Object> redisTemplate;
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
     @Override
     public Long register(UserEntity userEntity) {
         // 查询用户是否已经注册过
