@@ -22,7 +22,7 @@ echo -e "${GREEN}========================================${NC}"
 
 # 1. Maven 打包
 echo -e "${YELLOW}[1/4] 开始 Maven 打包...${NC}"
-mvn clean install -Dmaven.test.skip=true
+mvn clean install -Dmaven.test.skip=true -Dmaven.resources.overwrite=true
 if [ $? -ne 0 ]; then
     echo -e "${RED}Maven 打包失败，退出脚本${NC}"
     exit 1
